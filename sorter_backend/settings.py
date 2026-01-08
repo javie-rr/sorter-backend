@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Allows all origins (for development)
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+# Custom user model
+AUTH_USER_MODEL = 'users.User'
