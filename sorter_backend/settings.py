@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'users',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # Custom user model
 AUTH_USER_MODEL = 'users.User'
+
+
+# REST Framework configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
