@@ -8,7 +8,7 @@ from users.models import User
 class UserAdmin(BaseUserAdmin):
     model = User
 
-    list_display = ['id','first_name','last_name','second_last_name','email','password']
+    list_display = ['id','username','first_name','last_name','second_last_name','email','password']
     
     fieldsets = BaseUserAdmin.fieldsets + (
         ('Personal info', {
