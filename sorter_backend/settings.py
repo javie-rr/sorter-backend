@@ -147,7 +147,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,  # Si es True, devuelve nuevo refresh token al refrescar
-    'BLACKLIST_AFTER_ROTATION': True, # Si es True, el refresh token anterior se invalida
+    'BLACKLIST_AFTER_ROTATION': True, # Si es True, el refresh token anterior se invalida al refrescar
     'AUTH_HEADER_TYPES': ('Bearer',),
     # ...
 }
