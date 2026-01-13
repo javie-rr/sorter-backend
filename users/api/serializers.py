@@ -34,9 +34,9 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
         data['user'] = {
             'id': user.id,
             'username': user.username,
-            'email': user.email,
             'first_name': user.first_name,
             'last_name': user.last_name,
+            'second_last_name': user.second_last_name,
         }
 
         return data
