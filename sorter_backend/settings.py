@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'organization_types',
+    'organizations',
     'users',
     'rest_framework_simplejwt.token_blacklist',
 ]
