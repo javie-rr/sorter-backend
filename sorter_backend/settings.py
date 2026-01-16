@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'drf_spectacular',
     'organization_types',
     'organizations',
     'users',
@@ -142,7 +143,8 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -152,4 +154,12 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True, # Si es True, el refresh token anterior se invalida al refrescar
     'AUTH_HEADER_TYPES': ('Bearer',),
     # ...
+}
+
+# drf-spectacular configuration
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Sorter Proyect API',
+    'DESCRIPTION': 'Organizations and Users management documentation',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
