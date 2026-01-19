@@ -3,11 +3,10 @@ from organizations.models import Organization, OrganizationRegistration
 from django.db import transaction
 
 class OrganizationRegistrationSerializer(serializers.ModelSerializer):
-    #is_active = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = OrganizationRegistration
-        fields = '__all__'
+        fields = "__all__"
         read_only_fields = ['registration_date','organization','registration_location']
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -29,7 +28,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
         OrganizationRegistration.objects.create(
             organization=organization,
             registration_location=ip,
-            #is_active=True
         )
         
         return organization
