@@ -21,6 +21,14 @@ class OrganizationViewSet(ModelViewSet):
         # Allows filtering active/inactive via query param
         return queryset.filter(registration__is_active=is_active.lower() == 'true')
     
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+
+        return Response({
+            "organizations": serializer.data
+        })
+    
     def destroy(self, request, *args, **kwargs):
         organization = self.get_object()
         organization.registration.is_active = False
