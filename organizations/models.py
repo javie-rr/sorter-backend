@@ -1,5 +1,6 @@
 from django.db import models
 from organization_types.models import OrganizationType
+from contacts.models import Contact
 
 # Create your models here.
 
@@ -12,6 +13,11 @@ class Organization(models.Model):
        OrganizationType,
         on_delete=models.PROTECT,
         related_name="organizations"
+    )
+    contact = models.OneToOneField( 
+        Contact, 
+        on_delete=models.CASCADE, 
+        related_name="organization" 
     )
 
     def __str__(self):

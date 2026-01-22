@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'organization_types',
     'organizations',
+    'contacts',
     'users',
     'rest_framework_simplejwt.token_blacklist',
 ]
