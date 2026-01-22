@@ -3,6 +3,8 @@ from organizations.models import Organization, OrganizationRegistration
 from django.db import transaction
 from contacts.api.serializers import ContactSerializer
 from contacts.models import Contact
+from addresses.api.serializers import AddressSerializer
+from addresses.models import Address
 
 class OrganizationRegistrationSerializer(serializers.ModelSerializer):
 
@@ -15,20 +17,27 @@ class OrganizationRegistrationSerializer(serializers.ModelSerializer):
 class OrganizationSerializer(serializers.ModelSerializer):
     registration = OrganizationRegistrationSerializer(read_only=True)
     contact = ContactSerializer()
+    address = AddressSerializer()
 
     class Meta:
         model = Organization
-        fields = ['id', 'rfc', 'legal_name', 'capital_regime', 'trade_name', 'organization_type', 'registration', 'contact']
+        fields = ['id', 'rfc', 'legal_name', 'capital_regime', 'trade_name', 'organization_type', 'registration', 'contact', 'address']
 
     @transaction.atomic
     def create(self, validated_data):
         contact_data = validated_data.pop('contact')
+        address_data = validated_data.pop('address')
+
         # Create contact
         contact = Contact.objects.create(**contact_data)
+
+        # Create Address
+        address = Address.objects.create(**address_data)
 
         # Create Organization
         organization = Organization.objects.create(
             contact = contact,
+            address = address,
             **validated_data
         )
         
@@ -45,13 +54,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def update(self, instance, validated_data):
         contact_data = validated_data.pop('contact', None)
-
-        # Update Organization
-        instance.rfc = validated_data.get('rfc', instance.rfc)
-        instance.legal_name = validated_data.get('legal_name', instance.legal_name)
-        instance.capital_regime= validated_data.get('capital_regime', instance.capital_regime)
-        instance.trade_name = validated_data.get('trade_name', instance.trade_name)
-        instance.save()
+        address_data = validated_data.pop('address', None)
 
         # Update Contact
         if contact_data:
@@ -60,5 +63,20 @@ class OrganizationSerializer(serializers.ModelSerializer):
                 contact_serializer = ContactSerializer(contact, data=contact_data, partial=True)
                 contact_serializer.is_valid(raise_exception=True)
                 contact_serializer.save()
+        
+        # Update Address
+        if address_data:
+            address = instance.address
+            if address:
+                address_serializer = AddressSerializer(address, data=address_data, partial=True)
+                address_serializer.is_valid(raise_exception=True)
+                address_serializer.save()
+        
+        # Update Organization
+        instance.rfc = validated_data.get('rfc', instance.rfc)
+        instance.legal_name = validated_data.get('legal_name', instance.legal_name)
+        instance.capital_regime= validated_data.get('capital_regime', instance.capital_regime)
+        instance.trade_name = validated_data.get('trade_name', instance.trade_name)
+        instance.save()
            
         return instance

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'organization_types',
     'organizations',
     'contacts',
+    'addresses',
     'users',
     'rest_framework_simplejwt.token_blacklist',
 ]

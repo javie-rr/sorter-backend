@@ -1,6 +1,7 @@
 from django.db import models
 from organization_types.models import OrganizationType
 from contacts.models import Contact
+from addresses.models import Address
 
 # Create your models here.
 
@@ -16,6 +17,11 @@ class Organization(models.Model):
     )
     contact = models.OneToOneField( 
         Contact, 
+        on_delete=models.CASCADE, 
+        related_name="organization" 
+    )
+    address = models.OneToOneField( 
+        Address, 
         on_delete=models.CASCADE, 
         related_name="organization" 
     )
