@@ -19,6 +19,7 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from organization_types.api.router import router_organization_types
 from organizations.api.router import router_organizations
+from area_types.api.router import router_area_types
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +30,6 @@ urlpatterns = [
     # Urls for application APIs
     path('api/', include(router_organization_types.urls)),
     path('api/', include(router_organizations.urls)),
+    path('api/', include(router_area_types.urls)),
     path('api/', include('users.api.router')),
 ]

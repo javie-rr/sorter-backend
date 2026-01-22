@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_spectacular',
     'organization_types',
+    'area_types',
     'organizations',
     'contacts',
     'addresses',
