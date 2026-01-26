@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_spectacular',
     'organization_types',
-    'area_types',
     'organizations',
     'contacts',
     'addresses',
+    'area_types',
+    'areas',
     'users',
     'rest_framework_simplejwt.token_blacklist',
 ]

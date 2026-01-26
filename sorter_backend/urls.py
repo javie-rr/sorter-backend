@@ -20,6 +20,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 from organization_types.api.router import router_organization_types
 from organizations.api.router import router_organizations
 from area_types.api.router import router_area_types
+from areas.api.router import router_areas
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +32,6 @@ urlpatterns = [
     path('api/', include(router_organization_types.urls)),
     path('api/', include(router_organizations.urls)),
     path('api/', include(router_area_types.urls)),
+    path('api/', include(router_areas.urls)),
     path('api/', include('users.api.router')),
 ]
