@@ -21,6 +21,7 @@ from organization_types.api.router import router_organization_types
 from organizations.api.router import router_organizations
 from area_types.api.router import router_area_types
 from areas.api.router import router_areas
+from users.api.group.router import router_groups
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,4 +35,5 @@ urlpatterns = [
     path('api/', include(router_area_types.urls)),
     path('api/', include(router_areas.urls)),
     path('api/', include('users.api.router')),
+    path('api/', include(router_groups.urls)),
 ]
