@@ -11,6 +11,6 @@ urlpatterns = [
     path('auth/logout', LogoutView.as_view(), name='logout'),
 ]
 
-# router_users = DefaultRouter(trailing_slash=False) 
-# router_users.register(r'users', UserViewSet, basename='users')
-# urlpatterns = router_users.urls
+router_users = DefaultRouter(trailing_slash=False) 
+router_users.register(r'users', UserViewSet, basename='users')
+urlpatterns = router_users.urls

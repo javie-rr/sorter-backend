@@ -45,42 +45,47 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    group = serializers.PrimaryKeyRelatedField( 
-        queryset=Group.objects.all(), 
-        write_only=True
-    )
-
-    rol = serializers.SerializerMethodField(read_only=True)
+    groups = serializers.PrimaryKeyRelatedField( 
+        many=True, 
+        queryset=Group.objects.all(),
+        required=True,
+    ) 
 
     class Meta: 
         model = User 
-        fields = ['id', 'rfc', 'curp', 'first_name', 'last_name', 'second_last_name', 'username', 'email', 'password', 'group', 'rol']
+        fields = ['id', 'rfc', 'curp', 'first_name', 'last_name', 'second_last_name', 'username', 'email', 'password', 'groups']
         extra_kwargs = { 
             'password': {'write_only': True} 
         }
-
-    def get_rol(self, obj): 
-        return obj.groups.first().name if obj.groups.exists() else None
     
+    def validate_groups(self, value): 
+        if not value: 
+            raise serializers.ValidationError("Debes asignar al menos un grupo al usuario.") 
+        return value
+
+
     def create(self, validated_data): 
-        group = validated_data.pop('group', None) 
-        password = validated_data.pop('password', None)
-        user = User(**validated_data) 
-        if password: 
-            user.set_password(password) 
-            user.save()
-        if group: 
-            user.groups.clear() 
-            user.groups.add(group) 
+        groups_data = validated_data.pop('groups') 
+        password = validated_data.pop('password')
+        # Create the user
+        user = User.objects.create(**validated_data) 
+        user.set_password(password)
+        user.save()
+        # Assign groups to the user
+        user.groups.set(groups_data)
+
         return user
     
     def update(self, instance, validated_data): 
-        group = validated_data.pop('group', None) 
-        password = validated_data.pop('password', None) 
-        if password: 
-            instance.set_password(password) 
-        if group: 
-            instance.groups.clear() 
-            instance.groups.add(group) 
+        # Update groups if they were sent in the request
+        if 'groups' in validated_data:
+            groups_data = validated_data.pop('groups')
+            instance.groups.set(groups_data)
+
+        # Update the password if it was sent in the request
+        if 'password' in validated_data:
+            password = validated_data.pop('password')
+            instance.set_password(password)
         
+        # Update the other fields
         return super().update(instance, validated_data)
