@@ -16,6 +16,11 @@ local_settings.py
 # Database
 db.sqlite3
 
+# Migrations
+*/migrations/
+*/migrations/*.py
+*/migrations/*.pyc
+
 # Files uploaded by users
 media/
 
