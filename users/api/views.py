@@ -1,10 +1,12 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from users.api.serializers import CustomTokenObtainPairSerializer, CustomTokenRefreshSerializer
+from users.api.serializers import CustomTokenObtainPairSerializer, CustomTokenRefreshSerializer, UserSerializer
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+from users.models import User
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
@@ -26,3 +28,8 @@ class LogoutView(APIView):
             return Response({"detail": "Sesión cerrada"}, status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response({"detail": "Token inválido o expirado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

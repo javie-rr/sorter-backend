@@ -8,17 +8,17 @@ from users.models import User
 class UserAdmin(BaseUserAdmin):
     model = User
 
-    list_display = ['id','username','first_name','last_name','second_last_name','email','password']
+    list_display = ['id', 'first_name', 'last_name', 'second_last_name', 'rfc', 'curp', 'username', 'email']
     
     fieldsets = BaseUserAdmin.fieldsets + (
         ('Personal info', {
-            'fields': ('second_last_name',),
+            'fields': ('second_last_name', 'rfc','curp',),
         }),
     )
 
     # To include the new field in the add user form as well
     add_fieldsets = BaseUserAdmin.add_fieldsets + (
         ('Personal info', {
-            'fields': ('first_name','last_name','second_last_name',),
+            'fields': ('first_name','last_name','second_last_name','rfc','curp','email',),
         }),
     )
