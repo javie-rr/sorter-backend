@@ -12,6 +12,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
 
         user = self.user
+        # Get groups of the authenticated user
+        groups = user.groups.all()
+        group_names = [group.name for group in groups]
 
         data['user'] = {
             'id': user.id,
@@ -19,6 +22,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             'first_name': user.first_name,
             'last_name': user.last_name,
             'second_last_name': user.second_last_name,
+            'groups': group_names
         }
 
         return data
@@ -32,6 +36,9 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
         user = User.objects.get(id=user_id)
 
         data = super().validate(attrs)
+        # Get groups of the authenticated user
+        groups = user.groups.all()
+        group_names = [group.name for group in groups]
 
         data['user'] = {
             'id': user.id,
@@ -39,6 +46,7 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
             'first_name': user.first_name,
             'last_name': user.last_name,
             'second_last_name': user.second_last_name,
+            'groups': group_names
         }
 
         return data
